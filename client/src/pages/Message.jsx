@@ -8,7 +8,7 @@ const Message = () => {
   return (
     <div className="flex">
       <div className="w-[300px]">
-        <SideBar />
+        <SideBar chatId={chatId} />
       </div>
       <div className="flex-1">
         <Chatbox chatId={chatId} />

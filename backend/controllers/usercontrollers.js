@@ -74,6 +74,7 @@ export const getUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id).select("-password");
   if (user) {
     res.status(200).json({
+      _id: user._id,
       name: user.name,
       email: user.email,
       pic: user.pic,

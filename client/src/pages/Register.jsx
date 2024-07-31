@@ -9,9 +9,10 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Register() {
   const [name, setName] = useState("");
@@ -21,6 +22,8 @@ function Register() {
 
   const [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
+
   let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   const disabled =
@@ -29,6 +32,25 @@ function Register() {
     !email.match(emailRegex) ||
     !password.length > 8;
 
+  async function handleSubmit() {
+    setLoading(true);
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_PUBLIC_BACKEND_URL}/api/user/register`,
+        {
+          name,
+          username,
+          email,
+          password,
+        }
+      );
+      setLoading(false);
+      navigate("/");
+    } catch (error) {
+      console.error("Error:", error);
+      setLoading(false);
+    }
+  }
   return (
     <div className="flex items-center justify-center h-screen w-screen">
       <Card className="md:w-96 m-auto bg-transparent">
@@ -101,7 +123,7 @@ function Register() {
           <Link to={"/"}>
             <Button variant="outline">Cancel</Button>
           </Link>
-          <Button onClick={() => {}} disabled={loading || disabled}>
+          <Button onClick={handleSubmit} disabled={loading || disabled}>
             {loading ? (
               <Loader2 size={24} className="animate-spin" />
             ) : (

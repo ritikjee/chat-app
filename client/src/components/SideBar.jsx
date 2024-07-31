@@ -11,9 +11,17 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
+import { useSocket } from "@/hooks/use-socket";
+import PropType from "prop-types";
 
-const SideBar = () => {
+SideBar.propTypes = {
+  chatId: PropType.node,
+};
+
+function SideBar({ chatId }) {
   const [users, setUser] = useState([]);
+
+  const { socket } = useSocket();
 
   useEffect(() => {
     const backendurl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
@@ -37,6 +45,15 @@ const SideBar = () => {
     };
     fetchUsers();
   }, []);
+
+  console.log(users);
+
+  useEffect(() => {
+    socket.on("message", (message) => {
+      console.log(message);
+    });
+  }, []);
+
   return (
     <div>
       <div>
@@ -82,6 +99,6 @@ const SideBar = () => {
       </div>
     </div>
   );
-};
+}
 
 export default SideBar;

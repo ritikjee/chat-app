@@ -9,6 +9,7 @@ AuthProvider.propTypes = {
 
 const initialState = {
   user: null,
+  setUser: () => null,
   loading: true,
   logout: () => null,
 };
@@ -43,6 +44,7 @@ function AuthProvider({ children }) {
 
   const value = {
     user,
+    setUser,
     loading,
     logout,
   };

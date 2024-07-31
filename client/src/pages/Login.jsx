@@ -15,10 +15,13 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "@/hooks/use-auth";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const { setUser } = useAuth();
 
   const navigate = useNavigate();
   async function submit() {
@@ -29,6 +32,7 @@ function Login() {
         password: password,
       });
       Cookies.set("authtoken", data.token, { expires: 7 });
+      setUser(data);
       navigate("/chats");
       toast.success("Successfully logged in");
     } catch (error) {

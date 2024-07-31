@@ -21,7 +21,6 @@ export const protect = asyncHandler(async (req, res, next) => {
     } catch (error) {
       console.error(error);
       res.status(401);
-      throw new Error("Not authorized, token failed");
     }
   }
   if (!token) {
